@@ -9,11 +9,12 @@
 function arrayCounter($width, $height): void
 {
 	$res = [];
+	$numbers = [];
 
 	for ($i = 0; $i < $height; $i++) {
 		for ($k = 0; $k < $width; $k++) {
-			$num = rand(1, 1000);
-
+			$num = getUniqueNumber($numbers);
+			$numbers[] = $num;
 			$res[$i][] = $num;
 		}
 	}
@@ -21,11 +22,19 @@ function arrayCounter($width, $height): void
 	drawArray($res);
 }
 
+function getUniqueNumber(array $existedNumbers): int
+{
+	$num = rand(1, 10000);
+
+	return in_array($num, $existedNumbers) ? getUniqueNumber($existedNumbers) : $num;
+}
+
 function drawArray(array $array): void
 {
 	$columnCount = [];
 
 	echo '<table>';
+
 	foreach ($array as $row) {
 		echo '<tr>';
 
@@ -41,6 +50,7 @@ function drawArray(array $array): void
 	}
 
 	echo '<tr>';
+
 	foreach ($columnCount as $item) {
 		echo '<td><b>' . $item . '</b></td>';
 	}

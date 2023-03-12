@@ -30,7 +30,7 @@ const offices = [
 	}
 ]
 
-class PhoneNumber {
+class PhoneDisplay {
 	selectorName = '.uc-js-phone-number .t-text'
 	apiUrl = 'https://geolocation-db.com/json/'
 
@@ -57,18 +57,10 @@ class PhoneNumber {
 	}
 
 	async getCityName() {
-		if (window.localStorage.city) {
-			return window.localStorage.city
-		}
-
-		const city = await this.fetchCity().then(data => data.city)
-
-		window.localStorage.setItem('city', city)
-
-		return city
+		return await this.fetchCity().then(data => data.city)
 	}
 
-	fetchCity() {
+	async fetchCity() {
 		return fetch(this.apiUrl).then(e => {
 			return e.json()
 		})
@@ -76,5 +68,5 @@ class PhoneNumber {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	new PhoneNumber()
+	new PhoneDisplay()
 });
